@@ -1,0 +1,64 @@
+<div class="header-tag" *ngIf="selectedTag">
+    <h1 class="d-flex align-items-center">
+        <mat-icon class="material-symbols-rounded me-1">sell</mat-icon>
+        <span>{{ selectedTag }}</span>
+    </h1>
+</div>
+
+<ng-container [ngTemplateOutlet]="templatePaginator"></ng-container>
+
+<div @listAnim>
+    <mat-card *ngFor="let page of filteredPages">
+
+        <h2 class="page-title link">
+            <a [routerLink]="['/title', getSlug(page.title)]">{{ page.title }}</a>
+        </h2>
+    
+        <p class="page-subtitle">
+            <span *ngIf="page.metadata?.published_date">{{ (page.metadata?.published_date | date: 'longDate') }} &middot; </span>
+            <span class="page-time-to-read">{{ page.timeToRead }}</span>
+        </p>
+    
+        <div class="page-author d-flex" *ngIf="page.metadata?.authors?.length">
+            <mat-card-header *ngFor="let author of page.metadata?.authors">
+                <img *ngIf="author.image_url" mat-card-avatar [src]="author.image_url" [class.link]="author.url" (click)="visitAuthorUrl(author.url)" [alt]="author.name">
+                <div class="fallback-avatar" [class.link]="author.url" *ngIf="!author.image_url" mat-card-avatar (click)="visitAuthorUrl(author.url)">{{ getInitial(author.name) }}</div>
+                <mat-card-title [class.link]="author.url" (click)="visitAuthorUrl(author.url)">{{ author.name }}</mat-card-title>
+                <mat-card-subtitle *ngIf="author.title">{{ author.title }}</mat-card-subtitle>
+            </mat-card-header>
+        </div>
+    
+        <mat-card-content>
+            <section class="page-content" [innerHTML]="page.overview"></section>
+        </mat-card-content>
+    
+        <mat-card-actions class="d-flex flex-column align-items-end">
+            <div class="text-align-end" *ngIf="page.truncatedContent">
+                <a [routerLink]="['/title', getSlug(page.title)]" mat-button color="primary" (click)="readMoreClicked()">
+                    <mat-icon class="material-symbols-rounded me-1">menu_book</mat-icon>
+                    <span>Read more</span>
+                </a>
+            </div>
+            <div class="align-self-start d-flex flex-wrap">
+                <mat-icon *ngIf="page.metadata?.tags?.length" class="material-symbols-rounded mt-2" style="font-size: 1.2rem">sell</mat-icon>
+                <span class="tag d-flex align-items-center" *ngFor="let tag of page.metadata?.tags">
+                    {{ tag }}
+                </span>
+            </div>
+        </mat-card-actions>
+    
+    </mat-card>
+</div>
+
+<ng-container [ngTemplateOutlet]="templatePaginator"></ng-container>
+
+<ng-template #templatePaginator>
+    <mat-paginator 
+        #myPaginator
+        class="mb-3"
+        [length]="pages.length"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        (page)="onPageChange($event)"
+    ></mat-paginator>
+</ng-template>

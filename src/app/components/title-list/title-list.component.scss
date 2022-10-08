@@ -1,0 +1,33 @@
+:host {
+    display: block;
+    padding: 0 1rem;
+    word-wrap: break-word;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.titles-list {
+    list-style-type: none;
+    padding: 0 1rem;
+    margin: 0;
+
+    li {
+        padding: 0;
+        margin: 0;
+        margin-bottom: .8rem;
+    }
+
+    li > a {
+        text-decoration: none;
+        transition: 250ms;
+        color: rgba(#000, .87);
+
+        &:hover {
+            color: var(--mat-primary);
+        }
+
+        &.selected {
+            color: var(--mat-primary) !important;
+        }
+    }
+}

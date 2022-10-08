@@ -66,7 +66,6 @@ function readAndMark(files) {
             title,
             markedTitle: (0, marked_1.marked)(`# ${title}`),
             timeToRead: getTimeToRead(updatedFileContent),
-            content: (0, marked_1.marked)(updatedFileContent.replace(regexTruncate, '')),
             truncatedContent: (0, marked_1.marked)(getTruncatedContent(updatedFileContent).replace(regexTruncate, '')),
             overview: (0, marked_1.marked)(getOverviewContent(updatedFileContent)),
             metadata
@@ -137,6 +136,7 @@ function getOverviewContent(markdownContent) {
     if (markdownContent && (truncateMatches === null || truncateMatches === void 0 ? void 0 : truncateMatches.length)) {
         const truncateIndex = truncateMatches.index;
         overview = markdownContent.substring(0, truncateIndex);
+        overview = overview.replace(/]\(/g, ']\(assets/')
         const lines = overview.split('\n');
         lines.splice(0, 1);
         overview = lines.join('\n');
@@ -146,6 +146,7 @@ function getOverviewContent(markdownContent) {
 function getTruncatedContent(markdownContent) {
     let content = markdownContent;
     content = content.replace(/^(.*)$/m, '');
+    content = content.replace(/]\(/g, ']\(assets/')
     const truncateMatches = regexTruncate.exec(markdownContent);
     if (markdownContent && (truncateMatches === null || truncateMatches === void 0 ? void 0 : truncateMatches.length)) {
         const truncateIndex = truncateMatches.index;
@@ -161,5 +162,7 @@ miniDocsList.sort((a, b) => {
     const next = +new Date(((_b = b.metadata) === null || _b === void 0 ? void 0 : _b.published_date) || -1);
     return next - prev;
 });
+const addImport = outputFilename.includes('.ts') ? 'import { MiniDocs } from "./interfaces";\n\n' : ''
 const addExport = outputFilename.includes('.ts') ? 'export ' : '';
-fs.writeFileSync(`./src/shared/${outputFilename}`, `${addExport}const miniDocsList = ${JSON.stringify(miniDocsList, null, 2)}\n`, { encoding: 'utf-8' });
+const addType = outputFilename.includes('.ts') ? ': MiniDocs[] ' : '';
+fs.writeFileSync(`./src/app/shared/${outputFilename}`, `${addImport}${addExport}const miniDocsList${addType} = ${JSON.stringify(miniDocsList, null, 2)}\n`, { encoding: 'utf-8' });

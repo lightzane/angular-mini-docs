@@ -1,0 +1,12 @@
+<h2 class="d-flex align-items-center">
+    <mat-icon class="material-symbols-rounded me-1">article</mat-icon>
+    <span>Recent Posts</span>
+</h2>
+
+<section>
+    <ul class="titles-list" @listPopIn>
+        <li *ngFor="let title of titles">
+            <a [routerLink]="['/title', getSlug(title)]" routerLinkActive="selected">{{ title }}</a>
+        </li>
+    </ul>    
+</section>

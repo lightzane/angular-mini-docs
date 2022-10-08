@@ -1,0 +1,15 @@
+<div class="d-flex">
+    <button mat-icon-button *ngIf="!(atHome | async)" routerLink="" @popIn>
+        <mat-icon class="material-symbols-rounded">home</mat-icon>
+    </button>
+    <!-- <button mat-icon-button (click)="menuClick()" >
+        <mat-icon class="material-symbols-rounded">menu</mat-icon>
+    </button> -->
+    <div class="spacer"></div>
+    <!-- <button mat-icon-button (click)="tagsClick()" >
+        <mat-icon class="material-symbols-rounded" color="primary">sell</mat-icon>
+    </button> -->
+    <button mat-icon-button>
+        <mat-icon class="material-symbols-rounded">search</mat-icon>
+    </button>
+</div>

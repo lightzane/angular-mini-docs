@@ -1,10 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { slide } from './my-animation';
+import { StateService } from './shared/services/state.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [slide]
 })
-export class AppComponent {
-  title = 'angular-mini-docs';
+export class AppComponent implements OnInit {
+
+  isHandset = false;
+
+  showHeaderToolbar = false;
+
+  private scrollTop = 0;
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(): void {
+    this.showHeaderToolbar = this.scrollTop > window.scrollY && this.scrollTop > 50;
+    this.scrollTop = window.scrollY;
+  }
+
+  constructor(private state$: StateService) { }
+
+  ngOnInit(): void {
+    this.initStates();
+  }
+
+  private initStates(): void {
+    this.state$.isHandset$.subscribe(v => this.isHandset = v);
+  }
+
 }

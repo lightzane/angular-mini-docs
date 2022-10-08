@@ -31,5 +31,9 @@ const mini_docs_config_json_1 = __importDefault(require("./mini-docs.config.json
 const outputFilename = (mini_docs_config_json_1.default === null || mini_docs_config_json_1.default === void 0 ? void 0 : mini_docs_config_json_1.default.output) || 'list.ts';
 const copyAssetsToPath = mini_docs_config_json_1.default.public || './docs';
 
-fs.unlinkSync(`./src/shared/${outputFilename}`)
 fs.unlinkSync(`${copyAssetsToPath}/filler.md`)
+
+const addImport = outputFilename.includes('.ts') ? 'import { MiniDocs } from "./interfaces";\n\n' : ''
+const addExport = outputFilename.includes('.ts') ? 'export ' : '';
+const addType = outputFilename.includes('.ts') ? ': MiniDocs[] ' : '';
+fs.writeFileSync(`./src/app/shared/${outputFilename}`, `${addImport}${addExport}const miniDocsList${addType} = []\n`, { encoding: 'utf-8' });

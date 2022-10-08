@@ -1,0 +1,34 @@
+<mat-card *ngIf="page" @popIn>
+
+    <h2 class="page-title">
+        {{ page.title }}
+    </h2>
+
+    <p class="page-subtitle">
+        <span *ngIf="page.metadata?.published_date">{{ (page.metadata?.published_date | date: 'longDate') }} &middot; </span>
+        <span class="page-time-to-read">{{ page.timeToRead }}</span>
+    </p>
+
+    <div class="page-author d-flex" *ngIf="page.metadata?.authors?.length">
+        <mat-card-header *ngFor="let author of page.metadata?.authors">
+            <img *ngIf="author.image_url" mat-card-avatar [src]="author.image_url" [class.link]="author.url" (click)="visitAuthorUrl(author.url)" [alt]="author.name">
+            <div class="fallback-avatar" [class.link]="author.url" *ngIf="!author.image_url" mat-card-avatar (click)="visitAuthorUrl(author.url)">{{ getInitial(author.name) }}</div>
+            <mat-card-title [class.link]="author.url" (click)="visitAuthorUrl(author.url)">{{ author.name }}</mat-card-title>
+            <mat-card-subtitle *ngIf="author.title">{{ author.title }}</mat-card-subtitle>
+        </mat-card-header>
+    </div>
+
+    <mat-card-content>
+        <section class="page-content" [innerHTML]="(page.overview + page.truncatedContent)"></section>
+    </mat-card-content>
+
+    <mat-card-actions class="d-flex flex-column align-items-end">
+        <div class="align-self-start d-flex flex-wrap" *ngIf="page.metadata?.tags?.length">
+            <mat-icon class="material-symbols-rounded mt-2" style="font-size: 1.2rem">sell</mat-icon>
+            <span class="tag d-flex align-items-center" *ngFor="let tag of page.metadata?.tags">
+                {{ tag }}
+            </span>
+        </div>
+    </mat-card-actions>
+
+</mat-card>

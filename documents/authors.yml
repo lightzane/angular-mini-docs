@@ -2,3 +2,8 @@ lightzane:
   name: Lightzane
   title: Software Engineer
   image_url: https://github.com/lightzane.png
+  url: https://github.com/lightzane
+
+anonymous:
+  name: Unknown User
+  title: Author

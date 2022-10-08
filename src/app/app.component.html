@@ -1,0 +1,18 @@
+<mat-toolbar *ngIf="showHeaderToolbar" class="position-fixed start-0" style="z-index: 1" @slide>
+    <ng-container [ngTemplateOutlet]="header"></ng-container>
+</mat-toolbar>
+
+<div class="px-3">
+    <ng-container [ngTemplateOutlet]="header"></ng-container>
+</div>
+
+<div class="mx-0 p-0 mx-md-3 p-md-3">
+    <router-outlet></router-outlet>
+</div>
+
+<!-- * ====================================================
+*    templates
+* ===================================================== -->
+<ng-template #header>
+    <app-header></app-header>
+</ng-template>

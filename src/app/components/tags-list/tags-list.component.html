@@ -1,0 +1,12 @@
+<h2 class="d-flex align-items-center">
+    <mat-icon class="material-symbols-rounded me-1">sell</mat-icon>
+    <span>Tags</span>
+</h2>
+
+<section>
+    <ul class="tags-list d-flex justify-content-center flex-wrap" @listPopIn>
+        <li class="tag" *ngFor="let tag of tags" [routerLink]="['tag', getSlug(tag)]" routerLinkActive="selected">
+            {{ tag }}
+        </li>
+    </ul>
+</section>
