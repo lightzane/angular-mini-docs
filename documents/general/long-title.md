@@ -15,12 +15,13 @@ tags:
     six,
     seven,
     eight,
+    test update,
   ]
 ---
 
 # Fruits That Shaped Heart
 
-content
+content This is updated content
 
 ## Chapter 1
 

@@ -18,6 +18,7 @@ tags:
     apple,
     tag space,
   ]
+exclude_title: true
 ---
 
 # Fruits That Shaped Heart Copy

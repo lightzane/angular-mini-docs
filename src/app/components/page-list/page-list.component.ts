@@ -26,6 +26,8 @@ export class PageListComponent implements OnInit, AfterViewInit {
 
   selectedTag?: string;
 
+  pageSize = 10;
+
   @ViewChildren('myPaginator') $paginator?: MatPaginator;
 
   constructor(
@@ -54,14 +56,19 @@ export class PageListComponent implements OnInit, AfterViewInit {
         });
       }
     });
+
+    this.state$.pageSize$.subscribe(v => this.pageSize = v);
   }
 
   ngAfterViewInit(): void {
+    this.initPage();
+    this.reHighlight();
+  }
+
+  reHighlight(): void {
     // need timeout since "hljs.highlightAll()" is asynchronous 
     // (the first method is called in <script> of index.html)
     if (isPlatformBrowser(this.platformId)) {
-
-      this.initPage();
 
       setTimeout(() => {
         const hljsExists = this.document.querySelectorAll(HLJS_CLASS).length;
@@ -93,13 +100,10 @@ export class PageListComponent implements OnInit, AfterViewInit {
       this.pages = pages;
       this.selectedTag = tag;
       this.initPage();
+      this.reHighlight();
       if (isPlatformBrowser(this.platformId)) {
         setTimeout(() => {
           this.state$.atHome$.next(false);
-          const hljsExists = this.document.querySelectorAll(HLJS_CLASS).length;
-          if (!hljsExists) {
-            hljs.highlightAll();
-          }
         });
       }
     } else {
@@ -108,9 +112,9 @@ export class PageListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private initPage(pageIndex = 0, pageSize = 10): void {
+  private initPage(pageIndex = 0): void {
     if (this.$paginator) {
-      this.onPageChange({ pageIndex, pageSize, length: this.pages.length });
+      this.onPageChange({ pageIndex, pageSize: this.pageSize, length: this.pages.length });
     }
   }
 
@@ -123,10 +127,16 @@ export class PageListComponent implements OnInit, AfterViewInit {
       endIndex = this.pages.length;
     }
 
-    console.log(startIndex, endIndex);
+    this.state$.pageSize$.next(event.pageSize);
 
     // ? [BETTER PERFORMANCE] as data already stored in memory
     this.filteredPages = this.pages.slice(startIndex, endIndex);
+
+    this.cd.detectChanges();
+
+    // there is a bug and thus requires another "setTimeout"
+    // else it will not reHighlight
+    this.reHighlight();
 
   }
 

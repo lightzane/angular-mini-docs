@@ -97,6 +97,14 @@ body {
 
 .page-content {
 
+  // from metadata yaml front matter
+  &.indent {
+    p {
+      text-indent: 3rem;
+      text-align: justify;
+    }
+  }
+
   p {
     font-size: 1rem;
     line-height: 1.65;
@@ -123,6 +131,12 @@ body {
 
   img {
     max-width: 100%;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--mat-primary);
+    margin-left: .5rem;
+    padding-left: .5rem;
   }
 
 }

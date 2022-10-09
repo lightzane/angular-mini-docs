@@ -11,7 +11,11 @@ export class PageNotFoundComponent implements OnInit {
   constructor(private state$: StateService) { }
 
   ngOnInit(): void {
-    this.state$.atHome$.next(false);
+    // Adding timeout to prevent error
+    // Error: NG0100: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked.
+    setTimeout(() => {
+      this.state$.atHome$.next(false);
+    });
   }
 
 }

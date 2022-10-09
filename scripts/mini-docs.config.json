@@ -2,6 +2,7 @@
     "docs": "documents",
     "assets": [".webp", ".jpg", ".jpeg"],
     "public": "docs/assets",
+    "index": "docs",
     "output": "mini-docs-list.ts",
     "wpm": 200
 }

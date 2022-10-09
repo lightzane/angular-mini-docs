@@ -19,16 +19,43 @@
     </div>
 
     <mat-card-content>
-        <section class="page-content" [innerHTML]="(page.overview + page.truncatedContent)"></section>
+        <section class="page-content" [class.indent]="page.metadata?.indent" [innerHTML]="(page.overview + page.truncatedContent)"></section>
     </mat-card-content>
 
     <mat-card-actions class="d-flex flex-column align-items-end">
         <div class="align-self-start d-flex flex-wrap" *ngIf="page.metadata?.tags?.length">
             <mat-icon class="material-symbols-rounded mt-2" style="font-size: 1.2rem">sell</mat-icon>
-            <span class="tag d-flex align-items-center" *ngFor="let tag of page.metadata?.tags">
+            <span [routerLink]="['/tag', getSlug(tag)]" class="tag d-flex align-items-center" *ngFor="let tag of page.metadata?.tags">
                 {{ tag }}
             </span>
         </div>
     </mat-card-actions>
 
 </mat-card>
+
+<!-- * ======================================
+    Prev/Next + Newer/Older navigations 
+* ======================================= -->
+<div class="action-buttons mb-3 d-flex justify-content-between">
+
+    <div class="spacer" *ngIf="newerPage?.title === page?.title"></div>
+    <div *ngIf="newerPage && newerPage.title !== page?.title" class="ab me-1" [routerLink]="['/title', getSlug(newerPage.title)]" (click)="reHighlight()">
+        <p><span>
+            {{ isLeftPageOlder(newerPage.metadata?.published_date) ? 'Previous': 'Newer' }}
+        </span></p>
+        <p class="link newer">
+            <span>{{ newerPage.title }}</span>
+        </p>
+    </div>
+
+    <div class="spacer" *ngIf="!olderPage"></div>
+    <div *ngIf="olderPage && olderPage.title !== page?.title" class="ab ms-1" [routerLink]="['/title', getSlug(olderPage.title)]" (click)="reHighlight()">
+        <p><span>
+            {{ isRightPageOlder(olderPage.metadata?.published_date) ? 'Older' : 'Next' }}
+        </span></p>
+        <p class="link older">
+            <span>{{ olderPage.title }}</span>
+        </p>
+    </div>
+
+</div>

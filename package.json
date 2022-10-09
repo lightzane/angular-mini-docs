@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run mini-docs && ng serve",
     "build:original": "ng build",
     "mini-docs":"node scripts",
     "build": "node scripts && ng build && node scripts/copy && node scripts/clean",

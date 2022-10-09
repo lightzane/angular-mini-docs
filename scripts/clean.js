@@ -30,6 +30,7 @@ const fs = __importStar(require("fs"));
 const mini_docs_config_json_1 = __importDefault(require("./mini-docs.config.json"));
 const outputFilename = (mini_docs_config_json_1.default === null || mini_docs_config_json_1.default === void 0 ? void 0 : mini_docs_config_json_1.default.output) || 'list.ts';
 const copyAssetsToPath = mini_docs_config_json_1.default.public || './docs';
+const INDEX_HTML = (mini_docs_config_json_1.default === null || mini_docs_config_json_1.default === void 0 ? void 0 : mini_docs_config_json_1.default.index) || 'public';
 
 fs.unlinkSync(`${copyAssetsToPath}/filler.md`)
 
@@ -37,3 +38,9 @@ const addImport = outputFilename.includes('.ts') ? 'import { MiniDocs } from "./
 const addExport = outputFilename.includes('.ts') ? 'export ' : '';
 const addType = outputFilename.includes('.ts') ? ': MiniDocs[] ' : '';
 fs.writeFileSync(`./src/app/shared/${outputFilename}`, `${addImport}${addExport}const miniDocsList${addType} = []\n`, { encoding: 'utf-8' });
+
+let html = fs.readFileSync(`${INDEX_HTML}/index.html`, { encoding: 'utf-8' })
+html = html.replace(/ type="module"/g,'')
+html = html.replace(/\n/g, '')
+
+fs.writeFileSync(`${INDEX_HTML}/index.html`, html, { encoding: 'utf-8' })

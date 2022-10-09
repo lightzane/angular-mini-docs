@@ -11,6 +11,8 @@ export class StateService {
   isHandset$: Observable<boolean>;
   /** At home */
   atHome$ = new BehaviorSubject(true);
+  /** Page size to display */
+  pageSize$ = new BehaviorSubject(10);
 
   private iPadMiniPortrait = '(max-width: 768px) and (orientation: portrait)';
 

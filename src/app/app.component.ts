@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
-    this.showHeaderToolbar = this.scrollTop > window.scrollY && this.scrollTop > 50;
+    this.showHeaderToolbar = this.scrollTop > window.scrollY && this.scrollTop > 80;
     this.scrollTop = window.scrollY;
   }
 

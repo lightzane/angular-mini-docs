@@ -7,3 +7,49 @@
 .mat-button {
     font-size: 1rem;
 }
+
+.action-buttons {
+    .ab {
+        transition: 250ms;
+        border: 1px solid rgba(#000, .17);
+        border-radius: .3rem;
+        color: rgba(#000, .7);
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 1rem;
+        cursor: pointer;
+        &:hover {
+            border-color: var(--mat-primary);
+            p.link {
+                color: var(--mat-primary);
+            }
+        }
+        p, p.link {
+            padding: 0;
+            margin: 0;
+            transition: 250ms;
+            display: flex;
+            align-items: flex-start;
+        }
+        p {
+            color: rgba(#000, 0.6);
+        }
+        p.link {
+            font-weight: bold;
+            color: var(--mat-primary);
+        }
+        p.newer:before {
+            margin-right: .2rem;
+            content: "«";
+        }
+        p.older:after {
+            margin-left: .2rem;
+            content: "»";
+        }
+    }
+    .ab:last-child {
+        display: flex;
+        align-items: flex-end;
+    }
+}

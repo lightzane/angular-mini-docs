@@ -29,7 +29,7 @@
         </div>
     
         <mat-card-content>
-            <section class="page-content" [innerHTML]="page.overview"></section>
+            <section class="page-content" [class.indent]="page.metadata?.indent" [innerHTML]="page.overview"></section>
         </mat-card-content>
     
         <mat-card-actions class="d-flex flex-column align-items-end">
@@ -41,7 +41,7 @@
             </div>
             <div class="align-self-start d-flex flex-wrap">
                 <mat-icon *ngIf="page.metadata?.tags?.length" class="material-symbols-rounded mt-2" style="font-size: 1.2rem">sell</mat-icon>
-                <span class="tag d-flex align-items-center" *ngFor="let tag of page.metadata?.tags">
+                <span [routerLink]="['/tag', getSlug(tag)]" class="tag d-flex align-items-center" *ngFor="let tag of page.metadata?.tags">
                     {{ tag }}
                 </span>
             </div>
@@ -57,7 +57,7 @@
         #myPaginator
         class="mb-3"
         [length]="pages.length"
-        [pageSize]="10"
+        [pageSize]="pageSize"
         [pageSizeOptions]="[5, 10, 25, 100]"
         (page)="onPageChange($event)"
     ></mat-paginator>

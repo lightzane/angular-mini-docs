@@ -19,6 +19,10 @@ export class PageComponent implements OnInit, AfterViewInit {
 
   page?: MiniDocs;
 
+  newerPage?: MiniDocs;
+
+  olderPage?: MiniDocs;
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     @Inject(DOCUMENT) private document: Document,
@@ -47,6 +51,10 @@ export class PageComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // need timeout since "hljs.highlightAll()" is asynchronous 
     // (the first method is called in <script> of index.html)
+    this.reHighlight();
+  }
+
+  reHighlight(): void {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
         const hljsExists = this.document.querySelectorAll(HLJS_CLASS).length;
@@ -62,9 +70,19 @@ export class PageComponent implements OnInit, AfterViewInit {
   getSlug = getSlug;
 
   getPage(title: string): void {
-    const pageContent = miniDocsList.find(item => getSlug(item.title) === title);
-    if (pageContent) {
-      this.page = pageContent;
+    const index = miniDocsList.findIndex(item => getSlug(item.title) === title);
+    if (index > -1) {
+      this.page = miniDocsList[index];
+
+      let newer = index - 1;
+      let older = index + 1;
+
+      newer = newer >= 0 ? newer : 0;
+      older = older <= miniDocsList.length ? older : miniDocsList.length;
+
+      this.newerPage = miniDocsList[newer];
+      this.olderPage = miniDocsList[older];
+
     } else {
       this.router.navigateByUrl('page-not-found');
     }
@@ -74,6 +92,54 @@ export class PageComponent implements OnInit, AfterViewInit {
     if (isPlatformBrowser(this.platformId) && url) {
       window.open(url, '_blank');
     }
+  }
+
+  /**
+   * The page on the right can either be an `older` page or just a `next` page
+   * @param nextTarget the `published_date` of the target page
+   * @returns `true` if page on the right is older date
+   */
+  isRightPageOlder(nextTarget?: string): boolean {
+
+    const currentPageDate = this.page?.metadata?.published_date;
+
+    if (currentPageDate && nextTarget) {
+      const d1 = +new Date(currentPageDate);
+      const d2 = +new Date(nextTarget);
+
+      if (d1 > d2) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * The page on the left can either be a `newer` page or just `previous` page
+   * @param nextTarget the `published_date` of the target page
+   * @returns `true` if page on the right is older date
+   */
+  isLeftPageOlder(nextTarget?: string): boolean {
+
+    const currentPageDate = this.page?.metadata?.published_date;
+
+    if (currentPageDate && nextTarget) {
+      const d1 = +new Date(currentPageDate);
+      const d2 = +new Date(nextTarget);
+
+      if (d1 >= d2) {
+        return true;
+      }
+    }
+
+    // so it will display as 'previous' ..
+    // .. if current page and the page on the left has no date
+    if (!nextTarget) {
+      return true;
+    }
+
+    return false;
   }
 
 }
