@@ -1,12 +1,21 @@
 <h2 class="d-flex align-items-center">
     <mat-icon class="material-symbols-rounded me-1">article</mat-icon>
-    <span>Recent Posts</span>
+    <span>{{ isFiltered ? 'Recent' : 'Tag' }} Posts</span>
+    
+    <button mat-icon-button color="accent" routerLink="" *ngIf="!isFiltered" matTooltip="Clear filter">
+        <mat-icon class="material-symbols-rounded">filter_alt_off</mat-icon>
+    </button>
 </h2>
 
 <section>
-    <ul class="titles-list" @listPopIn>
-        <li *ngFor="let title of titles">
-            <a [routerLink]="['/title', getSlug(title)]" routerLinkActive="selected">{{ title }}</a>
-        </li>
-    </ul>    
+    <ng-container *ngIf="titles.length; else empty">
+        <ul class="titles-list" @listPopIn>
+            <li *ngFor="let title of titles">
+                <a [routerLink]="['/title', getSlug(title)]" routerLinkActive="selected">{{ title }}</a>
+            </li>
+        </ul>
+    </ng-container> 
+    <ng-template #empty>
+        <p class="ps-3">No titles available</p>
+    </ng-template>   
 </section>

@@ -136,7 +136,7 @@ function getOverviewContent(markdownContent) {
     if (markdownContent && (truncateMatches === null || truncateMatches === void 0 ? void 0 : truncateMatches.length)) {
         const truncateIndex = truncateMatches.index;
         overview = markdownContent.substring(0, truncateIndex);
-        overview = overview.replace(/]\(/g, ']\(assets/')
+        overview = overview.replace(/\]\((?!http|#)/g, ']\(assets/') // for image src
         const lines = overview.split('\n');
         lines.splice(0, 1);
         overview = lines.join('\n');
@@ -145,13 +145,13 @@ function getOverviewContent(markdownContent) {
 }
 function getTruncatedContent(markdownContent) {
     let content = markdownContent;
-    content = content.replace(/^(.*)$/m, '');
-    content = content.replace(/]\(/g, ']\(assets/')
     const truncateMatches = regexTruncate.exec(markdownContent);
     if (markdownContent && (truncateMatches === null || truncateMatches === void 0 ? void 0 : truncateMatches.length)) {
         const truncateIndex = truncateMatches.index;
         content = markdownContent.substring(truncateIndex);
     }
+    content = content.replace(/^(.*)$/m, '');
+    content = content.replace(/\]\((?!http|#)/g, ']\(assets/') // for image src
     return content;
 }
 readThroughDir(DIR);

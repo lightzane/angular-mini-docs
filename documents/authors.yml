@@ -1,9 +1,9 @@
 lightzane:
   name: Lightzane
-  title: Software Engineer
+  title: Developer
   image_url: https://github.com/lightzane.png
   url: https://github.com/lightzane
 
-anonymous:
-  name: Unknown User
+john:
+  name: John Aguilar
   title: Author

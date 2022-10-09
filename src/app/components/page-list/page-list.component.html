@@ -29,11 +29,11 @@
         </div>
     
         <mat-card-content>
-            <section class="page-content" [class.indent]="page.metadata?.indent" [innerHTML]="page.overview"></section>
+            <section class="page-content" [class.indent]="page.metadata?.indent" [innerHTML]="page.overview | bypassHtml"></section>
         </mat-card-content>
     
         <mat-card-actions class="d-flex flex-column align-items-end">
-            <div class="text-align-end" *ngIf="page.truncatedContent">
+            <div *ngIf="page.truncatedContent">
                 <a [routerLink]="['/title', getSlug(page.title)]" mat-button color="primary" (click)="readMoreClicked()">
                     <mat-icon class="material-symbols-rounded me-1">menu_book</mat-icon>
                     <span>Read more</span>

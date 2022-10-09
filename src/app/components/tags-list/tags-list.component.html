@@ -1,12 +1,21 @@
 <h2 class="d-flex align-items-center">
     <mat-icon class="material-symbols-rounded me-1">sell</mat-icon>
     <span>Tags</span>
+
+    <button mat-icon-button color="accent" routerLink="" *ngIf="!isFiltered" matTooltip="Clear filter">
+        <mat-icon class="material-symbols-rounded">filter_alt_off</mat-icon>
+    </button>
 </h2>
 
 <section>
-    <ul class="tags-list d-flex justify-content-center flex-wrap" @listPopIn>
-        <li class="tag" *ngFor="let tag of tags" [routerLink]="['tag', getSlug(tag)]" routerLinkActive="selected">
-            {{ tag }}
-        </li>
-    </ul>
+    <ng-container *ngIf="tags.length; else empty">
+        <ul class="tags-list d-flex justify-content-center flex-wrap" @listPopIn>
+            <li class="tag" *ngFor="let tag of tags" [routerLink]="['tag', getSlug(tag)]" routerLinkActive="selected">
+                {{ tag }}
+            </li>
+        </ul>
+    </ng-container>
+    <ng-template #empty>
+        <p class="text-center">No tags for this page</p>
+    </ng-template>
 </section>

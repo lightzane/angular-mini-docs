@@ -5,7 +5,8 @@
     </h2>
 
     <p class="page-subtitle">
-        <span *ngIf="page.metadata?.published_date">{{ (page.metadata?.published_date | date: 'longDate') }} &middot; </span>
+        <span *ngIf="page.metadata?.published_date && !page.metadata?.include_time">{{ (page.metadata?.published_date | date: 'longDate') }} &middot; </span>
+        <span *ngIf="page.metadata?.published_date && page.metadata?.include_time">{{ (page.metadata?.published_date | date: 'medium') }} &middot; </span>
         <span class="page-time-to-read">{{ page.timeToRead }}</span>
     </p>
 
@@ -19,7 +20,7 @@
     </div>
 
     <mat-card-content>
-        <section class="page-content" [class.indent]="page.metadata?.indent" [innerHTML]="(page.overview + page.truncatedContent)"></section>
+        <section class="page-content" [class.indent]="page.metadata?.indent" [innerHTML]="(page.overview + page.truncatedContent) | bypassHtml"></section>
     </mat-card-content>
 
     <mat-card-actions class="d-flex flex-column align-items-end">

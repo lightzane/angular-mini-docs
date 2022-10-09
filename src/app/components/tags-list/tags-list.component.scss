@@ -1,7 +1,10 @@
 :host {
     display: block;
-    padding: 0 1rem;
+    // padding: 0 1rem;
     word-wrap: break-word;
+}
+
+section {
     max-height: 85vh;
     overflow-y: auto;
 }

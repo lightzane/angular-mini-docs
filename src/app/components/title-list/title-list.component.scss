@@ -2,8 +2,15 @@
     display: block;
     padding: 0 1rem;
     word-wrap: break-word;
+}
+
+section {
     max-height: 85vh;
     overflow-y: auto;
+    // * Handset
+    @media screen and (max-width: 599.98px) and (orientation: portrait), (max-width: 959.98px) and (orientation: landscape) {
+        max-height: 30vh;
+    }
 }
 
 .titles-list {

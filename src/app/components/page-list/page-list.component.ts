@@ -40,6 +40,16 @@ export class PageListComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.listenRouteParams();
+    this.state$.pageSize$.subscribe(v => this.pageSize = v);
+  }
+
+  ngAfterViewInit(): void {
+    this.initPage();
+    this.reHighlight();
+  }
+
+  private listenRouteParams(): void {
     this.route.paramMap.subscribe(param => {
       const tag = param.get('tag');
       if (tag) {
@@ -51,18 +61,13 @@ export class PageListComponent implements OnInit, AfterViewInit {
       } else {
         this.pages = miniDocsList;
         this.selectedTag = undefined;
+        this.state$.resetTags();
+        this.state$.filterTitles(miniDocsList);
         setTimeout(() => {
           this.state$.atHome$.next(true);
         });
       }
     });
-
-    this.state$.pageSize$.subscribe(v => this.pageSize = v);
-  }
-
-  ngAfterViewInit(): void {
-    this.initPage();
-    this.reHighlight();
   }
 
   reHighlight(): void {
@@ -96,6 +101,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
 
   getTag(tag: string): void {
     const pages = miniDocsList.filter(item => item.metadata?.tags?.includes(tag.toLowerCase().replace(/-/g, ' ')));
+    this.state$.filterTitles(pages);
     if (pages.length) {
       this.pages = pages;
       this.selectedTag = tag;

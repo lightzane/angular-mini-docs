@@ -16,11 +16,11 @@ export class AppComponent implements OnInit {
 
   private scrollTop = 0;
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll(): void {
-    this.showHeaderToolbar = this.scrollTop > window.scrollY && this.scrollTop > 80;
-    this.scrollTop = window.scrollY;
-  }
+  // @HostListener('window:scroll', ['$event'])
+  // onScroll(): void {
+  //   this.showHeaderToolbar = this.scrollTop > window.scrollY && this.scrollTop > 80;
+  //   this.scrollTop = window.scrollY;
+  // }
 
   constructor(private state$: StateService) { }
 

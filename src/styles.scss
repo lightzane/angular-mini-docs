@@ -58,7 +58,7 @@ $mat-theme: mat.define-light-theme((
 @import '../node_modules/bootstrap/scss/utilities/api';
 @import '../node_modules/bootstrap/scss/grid';
 
-html, body { height: 100%; }
+html, body { height: 100%; max-width: 100%; }
 body { 
   margin: 0; 
   // font-family: Roboto, "Helvetica Neue", sans-serif; 
@@ -100,7 +100,7 @@ body {
   // from metadata yaml front matter
   &.indent {
     p {
-      text-indent: 3rem;
+      text-indent: 2rem;
       text-align: justify;
     }
   }
@@ -129,14 +129,27 @@ body {
     font-size: .85rem;
   }
 
+  li {
+    color:rgba(#000, .7);
+    font-size: 1rem;
+    margin-top: .7rem;
+    line-height: 1.7rem;
+  }
+
   img {
     max-width: 100%;
+    margin: auto;
+    display: block;
   }
 
   blockquote {
     border-left: 3px solid var(--mat-primary);
     margin-left: .5rem;
     padding-left: .5rem;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    margin-top: 2.5rem;
   }
 
 }

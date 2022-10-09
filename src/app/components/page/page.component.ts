@@ -43,6 +43,8 @@ export class PageComponent implements OnInit, AfterViewInit {
           this.state$.atHome$.next(false);
         });
         this.cd.detectChanges();
+        this.reHighlight();
+        this.scrollToTop();
       }
     }
     );
@@ -83,9 +85,22 @@ export class PageComponent implements OnInit, AfterViewInit {
       this.newerPage = miniDocsList[newer];
       this.olderPage = miniDocsList[older];
 
+      // display only the tags of the current page
+      this.filterTags();
+
     } else {
       this.router.navigateByUrl('page-not-found');
     }
+  }
+
+  private filterTags(): void {
+    const tags: string[] = [];
+    this.page?.metadata?.tags?.forEach((tag) => {
+      if (!tags.includes(tag.toLowerCase())) {
+        tags.unshift(tag);
+      }
+    });
+    this.state$.filteredTagsList$.next(tags.sort());
   }
 
   visitAuthorUrl(url?: string): void {
@@ -140,6 +155,12 @@ export class PageComponent implements OnInit, AfterViewInit {
     }
 
     return false;
+  }
+
+  private scrollToTop(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo(0, 0);
+    }
   }
 
 }

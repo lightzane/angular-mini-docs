@@ -3,4 +3,6 @@ export interface CustomMetadata {
     exclude_title?: boolean;
     /** (true or **false**) determines whether to add indentation in each paragraph in the content */
     indent?: boolean;
+    /** (true or **false**) determines whether to include the time (from `published_date`) to be displayed in the page  */
+    include_time?: boolean;
 }

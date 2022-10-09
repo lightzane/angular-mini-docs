@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { map, switchMap } from 'rxjs';
 import { listPopIn } from '../../my-animation';
 import { miniDocsList } from '../../shared/mini-docs-list';
+import { StateService } from '../../shared/services/state.service';
 import { getSlug } from '../../shared/utils';
 
 @Component({
@@ -14,20 +16,23 @@ export class TagsListComponent implements OnInit {
 
   tags: string[] = [];
 
-  constructor() { }
+  isFiltered = true;
+
+  constructor(
+    private state$: StateService,
+    private cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
-    miniDocsList.forEach((item) => {
-      const tagsList = item.metadata?.tags;
-      if (tagsList?.length) {
-        tagsList.forEach((tag) => {
-          if (!this.tags.includes(tag.toLowerCase())) {
-            this.tags.unshift(tag);
-          }
-        });
+    this.state$.isFiltered.pipe(
+      map(v => this.isFiltered = v),
+      switchMap(() => this.state$.filteredTagsList$)
+    ).subscribe(
+      v => {
+        this.tags = v;
+        this.cd.detectChanges();
       }
-    });
-    this.tags = this.tags.sort();
+    );
   }
 
   getSlug = getSlug;
