@@ -64,11 +64,35 @@ export class StateService {
   }
 
   private initAllTitles(): void {
-    miniDocsList.forEach((item) => {
-      if (!item.metadata?.exclude_title) {
-        this.titles.push(item.title);
-      }
-    });
+    miniDocsList
+
+      .sort((a, b) => {
+        // * Sort by priority:
+        // 1. index
+        // 2. published_date (default by mini-docs)
+        // 3. filename (default by mini-docs)
+
+        const indexA = a.metadata?.index;
+        const indexB = b.metadata?.index;
+
+        // index
+        if (indexA && indexB) {
+          return indexA - indexB; // display the lowest index first
+        }
+        // published_date (default sort by mini-docs)
+        else if (indexA) {
+          return -1;
+        }
+        // filename (default sort by mini-docs)
+        else return 1;
+      })
+
+      .forEach((item) => {
+        if (!item.metadata?.exclude_title) {
+          this.titles.push(item.title);
+        }
+      });
+
     this.filteredTitlesList$.next(this.titles);
   }
 
@@ -80,7 +104,6 @@ export class StateService {
       }
     });
     this.filteredTitlesList$.next(filter);
-
 
     if (this.titles.length === filter.length) {
       this.isFiltered.next(true);

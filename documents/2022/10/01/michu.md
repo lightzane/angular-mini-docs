@@ -3,6 +3,7 @@ authors: [john]
 published_date: OCT 1 2022 11:01 UTC+8
 include_time: true
 tags: [michu, bird, parrot]
+index: 2
 ---
 
 # Michu

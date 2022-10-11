@@ -5,4 +5,6 @@ export interface CustomMetadata {
     indent?: boolean;
     /** (true or **false**) determines whether to include the time (from `published_date`) to be displayed in the page  */
     include_time?: boolean;
+    /** (number) determines the sort priority */
+    index?: number;
 }

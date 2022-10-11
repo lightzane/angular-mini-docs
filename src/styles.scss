@@ -76,7 +76,7 @@ body {
 .tag {
   transition: 250ms;
   display: inline-block;
-  border: 1px solid rgba(#000, .17);
+  border: 1px solid rgba(#000, .3);
   color: rgba(#000, 0.67);
   margin: .2rem;
   padding: .2rem .8rem;
@@ -97,6 +97,8 @@ body {
 
 .page-content {
 
+  $font-color: rgba(#000, .8);
+
   // from metadata yaml front matter
   &.indent {
     p {
@@ -108,7 +110,7 @@ body {
   p {
     font-size: 1rem;
     line-height: 1.65;
-    color:rgba(#000, .7);
+    color: $font-color;
   }
 
   pre {
@@ -130,7 +132,7 @@ body {
   }
 
   li {
-    color:rgba(#000, .7);
+    color: $font-color;
     font-size: 1rem;
     margin-top: .7rem;
     line-height: 1.7rem;

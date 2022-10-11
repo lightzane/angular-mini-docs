@@ -53,6 +53,7 @@ Describes a page's properties. The fields are all optional.
 | `exclude_title`  | (true or **false**) determines whether the title will be excluded in the titles list which is usually displayed on the left |
 | `indent`         | (true or **false**) determines whether to add indentation in each paragraph in the content                                  |
 | `include_time`   | (true or **false**) determines whether to include the time (from `published_date`) to be displayed in the page              |
+| `index`          | (number) determines the sort priority                                                                                       |
 
 ## Authors
 
